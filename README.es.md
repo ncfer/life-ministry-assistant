@@ -24,8 +24,14 @@
 
 ---
 
+<p align="center"><sub><strong>Papeletas de asignación, de principio a fin</strong></sub></p>
 <p align="center">
   <img src="docs/demo/demo_es.gif" width="700" alt="Demo: elegir el VMC, revisar las asignaciones, previsualizar las papeletas y confirmar antes de enviar">
+</p>
+
+<p align="center"><sub><strong>Recordatorios de reunión, de principio a fin</strong> — la foto del programa de abajo es un ejemplo inventado, no una página real del programa</sub></p>
+<p align="center">
+  <img src="docs/demo/demo_reminders_es.gif" width="700" alt="Demo: tabla de revisión y pantalla de confirmación de recordatorios, con un programa y nombres de ejemplo ficticios">
 </p>
 
 Tiene dos formas de usarse: con **ventanas** (pensada para cualquiera,
@@ -136,11 +142,6 @@ Un par de pantallas más que no salen en el recorrido de arriba:
     </td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="docs/demo/demo_reminders_es.gif" width="700" alt="Demo: tabla de revisión y pantalla de confirmación de recordatorios, con un programa y nombres de ejemplo ficticios">
-</p>
-<p align="center"><sub>La foto del programa de arriba es un ejemplo inventado, no una página real del programa — ver la nota de abajo.</sub></p>
 
 > [!NOTE]
 > Este proyecto no está afiliado ni respaldado por los Testigos de
