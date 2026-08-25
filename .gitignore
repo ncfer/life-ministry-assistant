@@ -1,0 +1,32 @@
+venv/
+output/
+__pycache__/
+*.pyc
+*.xlsm
+*.xlsx
+VMC*.pdf
+.whatsapp-session/
+whatsapp-session/
+
+# Real congregation data — names, phone numbers, Padlet credentials.
+# Never commit these; contacts.example.csv is the safe placeholder.
+contacts.csv
+history.csv
+reminder_history.csv
+config.json
+
+# Per-installation customized message wording (whatever language/tone
+# the congregation using this copy wrote them in) — not generic app
+# content. message_editor.py already synthesizes a localized starter
+# template on demand when these don't exist, so a fresh clone doesn't
+# need them committed.
+message.txt
+reminder_message.txt
+
+# PyInstaller build output
+build/
+dist/
+*.spec
+LifeMinistryAssistant.exe
+
+LEEME_MANANA.md
