@@ -1,0 +1,41 @@
+name: Build
+
+# Compiles LifeMinistryAssistant into a single-file executable on real
+# Windows and macOS runners — PyInstaller can't cross-compile from Linux,
+# so this is the whole reason the workflow exists: no local VM, no local
+# Mac, just push and download the artifact a few minutes later.
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip pyinstaller
+      - run: python -m pip install -r requirements.txt
+      - run: python -m PyInstaller --onefile --windowed --name LifeMinistryAssistant --add-data "assets;assets" app_entry.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LifeMinistryAssistant-windows
+          path: dist/LifeMinistryAssistant.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip pyinstaller
+      - run: python -m pip install -r requirements.txt
+      - run: python -m PyInstaller --onefile --windowed --name LifeMinistryAssistant --add-data "assets:assets" app_entry.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LifeMinistryAssistant-macos
+          path: dist/LifeMinistryAssistant.app
