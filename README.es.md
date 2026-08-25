@@ -24,21 +24,17 @@
 
 ---
 
+<p align="center">
+  <img src="docs/demo/demo_es.gif" width="700" alt="Demo: elegir el VMC, revisar las asignaciones, previsualizar las papeletas y confirmar antes de enviar">
+</p>
+
 Tiene dos formas de usarse: con **ventanas** (pensada para cualquiera,
 sin necesidad de saber de ordenadores) o desde la **terminal** (más
 rápida si ya la manejas). Ambas hacen lo mismo por dentro.
 
+Un par de pantallas más que no salen en el recorrido de arriba:
+
 <table>
-  <tr>
-    <td width="50%">
-      <img src="docs/screenshots/es/home.png" width="100%" alt="Pantalla de inicio"><br>
-      <sub><strong>Pantalla de inicio.</strong> Nueva asignación, recordatorios o ajustes — todo empieza aquí.</sub>
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/es/workbook_picker.png" width="100%" alt="Elegir el VMC, con la fuente Padlet ya configurada"><br>
-      <sub><strong>Elegir el VMC.</strong> Un PDF local, un tablón de Padlet, o un enlace de Google Drive.</sub>
-    </td>
-  </tr>
   <tr>
     <td width="50%">
       <img src="docs/screenshots/es/contacts.png" width="100%" alt="Editor de la lista de contactos"><br>
@@ -47,16 +43,6 @@ rápida si ya la manejas). Ambas hacen lo mismo por dentro.
     <td width="50%">
       <img src="docs/screenshots/es/message.png" width="100%" alt="Editor de la plantilla de WhatsApp con vista previa en vivo"><br>
       <sub><strong>Editor de mensaje.</strong> Vista previa en vivo de exactamente lo que le llegará al destinatario.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="docs/screenshots/es/preview.png" width="100%" alt="Vista previa de las papeletas generadas antes de enviar"><br>
-      <sub><strong>Vista previa.</strong> Cada papeleta, generada y revisable, antes de que salga nada.</sub>
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/es/send_confirm.png" width="100%" alt="Paso final de confirmación mostrando el mensaje exacto de WhatsApp antes de enviar"><br>
-      <sub><strong>Confirmar y enviar.</strong> El mensaje exacto, tal cual llegará — nada se envía sin marcar esta casilla.</sub>
     </td>
   </tr>
 </table>
@@ -150,6 +136,11 @@ rápida si ya la manejas). Ambas hacen lo mismo por dentro.
     </td>
   </tr>
 </table>
+
+<p align="center">
+  <img src="docs/demo/demo_reminders_es.gif" width="700" alt="Demo: tabla de revisión y pantalla de confirmación de recordatorios, con un programa y nombres de ejemplo ficticios">
+</p>
+<p align="center"><sub>La foto del programa de arriba es un ejemplo inventado, no una página real del programa — ver la nota de abajo.</sub></p>
 
 > [!NOTE]
 > Este proyecto no está afiliado ni respaldado por los Testigos de
