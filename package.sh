@@ -32,6 +32,7 @@ rsync -a \
     --exclude "reminder_message.txt" \
     --exclude "VMC*.pdf" \
     --exclude "package.sh" \
+    --exclude "dev/" \
     ./ "$FOLDER/"
 
 # Ready-to-edit example contacts (instead of an empty CSV with no hint of

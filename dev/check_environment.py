@@ -29,7 +29,9 @@ from typing import Callable
 if getattr(sys, "frozen", False):
     ROOT = Path(sys.executable).resolve().parent
 else:
-    ROOT = Path(__file__).resolve().parent
+    # Running from source: this file lives in dev/, one level below the
+    # project root (venv/, requirements.txt) it needs to point at.
+    ROOT = Path(__file__).resolve().parent.parent
 VENV = ROOT / "venv"
 REQUIREMENTS = ROOT / "requirements.txt"
 

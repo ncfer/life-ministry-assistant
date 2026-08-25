@@ -1,68 +1,165 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Life &amp; Ministry Assistant" width="420">
+  <img src="assets/logo.png" alt="Life &amp; Ministry Assistant" width="150">
 </p>
 
-<p align="center"><i><a href="README.md">Read in English →</a></i></p>
+<h1 align="center">Life & Ministry Assistant 🗓️</h1>
 
-Genera las papeletas de asignación (PDF/JPG) y los recordatorios de
-calendario a partir del VMC, y los envía por WhatsApp — sin depender de
-Excel, macros ni de BulkPDF/Wine. Funciona en Linux, Windows y Mac.
+<p align="center">
+  <strong>Convierte el VMC en papeletas de asignación y avisos de WhatsApp listos para enviar — sin Excel, sin macros, sin BulkPDF/Wine.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ncfer/life-ministry-assistant/releases/latest"><img alt="Última versión" src="https://img.shields.io/github/v/release/ncfer/life-ministry-assistant?style=flat-square&color=0e6ba8"></a>
+  <a href="https://github.com/ncfer/life-ministry-assistant/actions/workflows/build.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/ncfer/life-ministry-assistant/build.yml?style=flat-square"></a>
+  <a href="LICENSE"><img alt="Licencia: MIT" src="https://img.shields.io/github/license/ncfer/life-ministry-assistant?style=flat-square"></a>
+  <img alt="Plataformas" src="https://img.shields.io/badge/plataforma-Windows%20%7C%20macOS%20%7C%20Linux-0e6ba8?style=flat-square">
+</p>
+
+<p align="center">
+  <a href="https://github.com/ncfer/life-ministry-assistant/releases/latest">⬇ Descargar</a> ·
+  <a href="https://github.com/ncfer/life-ministry-assistant/issues/new?labels=bug">🐛 Reportar un error</a> ·
+  <a href="https://github.com/ncfer/life-ministry-assistant/issues/new?labels=enhancement">✨ Pedir una función</a> ·
+  <a href="README.md">🌐 English</a>
+</p>
+
+---
 
 Tiene dos formas de usarse: con **ventanas** (pensada para cualquiera,
 sin necesidad de saber de ordenadores) o desde la **terminal** (más
 rápida si ya la manejas). Ambas hacen lo mismo por dentro.
 
-<p align="center">
-  <img src="docs/screenshots/es/home.png" width="49%" alt="Pantalla de inicio">
-  <img src="docs/screenshots/es/workbook_picker.png" width="49%" alt="Elegir el VMC, con la fuente Padlet ya configurada">
-</p>
-<p align="center">
-  <img src="docs/screenshots/es/contacts.png" width="49%" alt="Editor de la lista de contactos">
-  <img src="docs/screenshots/es/message.png" width="49%" alt="Editor de la plantilla de WhatsApp con vista previa en vivo">
-</p>
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/es/home.png" width="100%" alt="Pantalla de inicio"><br>
+      <sub><strong>Pantalla de inicio.</strong> Nueva asignación, recordatorios o ajustes — todo empieza aquí.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/es/workbook_picker.png" width="100%" alt="Elegir el VMC, con la fuente Padlet ya configurada"><br>
+      <sub><strong>Elegir el VMC.</strong> Un PDF local, un tablón de Padlet, o un enlace de Google Drive.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/es/contacts.png" width="100%" alt="Editor de la lista de contactos"><br>
+      <sub><strong>Contactos.</strong> Emparejados con cada asignación en automático, con sugerencias por parecido.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/es/message.png" width="100%" alt="Editor de la plantilla de WhatsApp con vista previa en vivo"><br>
+      <sub><strong>Editor de mensaje.</strong> Vista previa en vivo de exactamente lo que le llegará al destinatario.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/es/preview.png" width="100%" alt="Vista previa de las papeletas generadas antes de enviar"><br>
+      <sub><strong>Vista previa.</strong> Cada papeleta, generada y revisable, antes de que salga nada.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/es/send_confirm.png" width="100%" alt="Paso final de confirmación mostrando el mensaje exacto de WhatsApp antes de enviar"><br>
+      <sub><strong>Confirmar y enviar.</strong> El mensaje exacto, tal cual llegará — nada se envía sin marcar esta casilla.</sub>
+    </td>
+  </tr>
+</table>
 
-## Funcionalidades
+---
 
-- **Papeletas de asignación** — genera el PDF/JPG de la papeleta S-89
-  oficial para cada asignación que tiene una, directamente a partir del
-  PDF del programa de la reunión Vida y Ministerio. Sin copiar y pegar
-  a mano.
-- **Recordatorios de calendario** — adjunta un archivo `.ics`, un link
-  de Google Calendar, o ambos, a cada asignación, para que quede
-  directamente en el calendario del teléfono de la persona.
-- **Recordatorios de reunión, más allá de las papeletas** — un flujo
-  aparte que avisa a *todo el mundo* que tiene una parte esa semana
-  (lectura de la Biblia, discursos de Nuestra vida cristiana,
-  oraciones, Tesoros/Perlas escondidas…, no solo los roles con papeleta
-  S-89 oficial). Envía la foto del programa de esa semana con un texto
-  corto y personalizado para cada participante.
-- **Tres formas de traer el VMC**: elegir un PDF local, sacarlo
-  directamente de un tablón de Padlet (si tu congregación lo publica
-  ahí), o de un enlace de Google Drive — sin descargar nada a mano una
-  vez configurado.
-- **Envío por WhatsApp automatizado, pero con cuidado** — controla una
-  ventana real de Chrome/Chromium sobre WhatsApp Web (no una librería
-  no oficial haciéndose pasar por WhatsApp), con pausas entre envíos y
-  un paso de confirmación manual antes de que salga nada.
-- **Búsqueda inteligente de contactos** — busca el teléfono de cada
-  persona automáticamente; si no encuentra una coincidencia exacta
-  sugiere el nombre más parecido en vez de fallar en silencio o no
-  enviar nada.
-- **Plantillas de mensaje editables con vista previa en vivo** — cambia
-  el texto sin tocar código. Huecos como `{nombre}` o `{fecha}` se
-  rellenan solos, y ves exactamente lo que le va a llegar al
-  destinatario antes de que se envíe nada.
-- **Historial de envíos** — cada tanda que mandas (asignaciones y
-  recordatorios) queda registrada, para poder revisar quién recibió
-  qué y cuándo.
-- **Dos formas de usarla** — modo ventanas completo para cualquiera, o
-  modo terminal/CLI programable para uso avanzado o por lotes.
-- **Interfaz bilingüe** (español/inglés) y **tema claro/oscuro**,
-  ambos cambiables desde Ajustes en cualquier momento.
-- **Funciona en cualquier sitio** — Linux, Windows y Mac, como
-  ejecutable de un solo archivo o directamente desde el código.
+## 🔄 Cómo funciona
 
-## Instalación (solo la primera vez)
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <h2>📄 → 🗓️</h2>
+      <strong>1. Traer el VMC</strong><br>
+      <sub>PDF local, un tablón de Padlet, o un enlace de Google Drive</sub>
+    </td>
+    <td align="center" width="33%">
+      <h2>🔍 → ✅</h2>
+      <strong>2. Revisar y emparejar</strong><br>
+      <sub>Nombres emparejados con teléfonos, corriges lo que falte</sub>
+    </td>
+    <td align="center" width="33%">
+      <h2>💬 → 📤</h2>
+      <strong>3. Enviar por WhatsApp</strong><br>
+      <sub>Ventana real de Chrome, un clic de confirmación, nada se envía por sorpresa</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## ✨ Funcionalidades
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>📋 Papeletas de asignación</strong><br>
+      Genera el PDF/JPG de la papeleta S-89 oficial para cada
+      asignación que tiene una, directamente desde el PDF del
+      programa. Sin copiar y pegar a mano.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🔔 Recordatorios de calendario</strong><br>
+      Adjunta un archivo <code>.ics</code>, un link de Google Calendar,
+      o ambos — queda directo en el calendario del teléfono.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>📣 Recordatorios de reunión, más allá de las papeletas</strong><br>
+      Un flujo aparte que avisa a <em>todo el mundo</em> que tiene una
+      parte esa semana (lectura, discursos, oraciones…), enviando la
+      foto del programa con un texto corto y personalizado para cada uno.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🧠 Búsqueda inteligente de contactos</strong><br>
+      Busca el teléfono de cada persona automáticamente; si no
+      encuentra una coincidencia exacta sugiere el nombre más parecido
+      en vez de fallar en silencio.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>✏️ Plantillas editables, vista previa en vivo</strong><br>
+      Cambia el texto sin tocar código. Huecos como <code>{nombre}</code>
+      o <code>{fecha}</code> se rellenan solos, y ves exactamente lo
+      que se envía antes de enviarlo.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🕓 Historial de envíos</strong><br>
+      Cada tanda que mandas (asignaciones y recordatorios) queda
+      registrada, para revisar quién recibió qué y cuándo.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>🖥️ Dos formas de usarla</strong><br>
+      Modo ventanas completo para cualquiera, o modo terminal/CLI
+      programable para uso avanzado o por lotes.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🌗 Idioma y tema cambiables</strong><br>
+      Interfaz bilingüe (español/inglés) y tema claro/oscuro, ambos
+      cambiables desde Ajustes en cualquier momento.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" colspan="2">
+      <strong>🌍 Funciona en cualquier sitio</strong><br>
+      Linux, Windows y Mac, como ejecutable de un solo archivo o
+      directamente desde el código.
+    </td>
+  </tr>
+</table>
+
+> [!NOTE]
+> Este proyecto no está afiliado ni respaldado por los Testigos de
+> Jehová, la Watch Tower Bible and Tract Society, WhatsApp, ni Meta
+> Platforms, Inc. Es una herramienta independiente que automatiza una
+> sesión real de navegador sobre WhatsApp Web — como usarlo a mano,
+> solo que con guion — y está pensada para ayudar con el flujo de
+> trabajo de la papeleta S-89.
+
+## 📦 Instalación (solo la primera vez)
 
 No hace falta terminal ni saber de ordenadores: descomprime la carpeta
 donde quieras y haz doble clic en el lanzador de tu sistema:
@@ -74,13 +171,22 @@ donde quieras y haz doble clic en el lanzador de tu sistema:
   consola). Puedes crear un acceso directo en el Escritorio con botón
   derecho → "Crear acceso directo" sobre cualquiera de los dos.
   (`LifeMinistryAssistant.exe` no viene ya compilado en el zip por su tamaño — quien
-  lo reparte puede generarlo una vez ejecutando `build_exe.bat` en un
+  lo reparte puede generarlo una vez ejecutando `dev/build_exe.bat` en un
   Windows real, ver el comentario dentro de ese archivo. `LifeMinistryAssistant.exe`
   no descarga ningún navegador por su cuenta: si al enviar por WhatsApp no
   encuentra Chrome, Edge ni Chromium instalado, avisa con instrucciones
   claras de qué instalar. `launch_gui.bat` sí sigue ofreciendo descargar un
   navegador propio automáticamente la primera vez si hace falta, como
   hacía hasta ahora.)
+
+  > [!NOTE]
+  > `LifeMinistryAssistant.exe` todavía no está firmado digitalmente, así
+  > que Windows SmartScreen puede avisar de "Windows protegió tu PC" la
+  > primera vez que lo abras. Pulsa **Más información** y luego
+  > **Ejecutar de todas formas**. Hay una solicitud en curso de
+  > certificado gratuito de firma de código con
+  > [SignPath Foundation](https://signpath.org/) que eliminará este aviso
+  > una vez aprobada.
 - **Mac:** `launch_gui.command` (no uses `launch_gui.sh` para el doble
   clic, Mac lo abriría como texto en vez de ejecutarlo). La primera vez
   puede que Mac avise de que es de "un desarrollador no identificado" —
@@ -104,13 +210,16 @@ descargado aparte, **Google Chrome** ya instalado — si no lo tienes, el
 lanzador descarga su propio navegador automáticamente, no hace falta
 hacer nada.
 
-## Modo ventanas (recomendado)
+## 🖱️ Modo ventanas (recomendado)
 
-La primera vez pedirá configurar las rutas (dónde está el PDF de la S-89,
+> [!IMPORTANT]
+> El PDF de la papeleta S-89 no viene incluido (es un formulario propio
+> de la Watch Tower) — pídeselo a quien te ha pasado esta carpeta, o usa
+> el que ya tenga tu congregación.
+
+La primera vez pedirá configurar las rutas (dónde está esa plantilla,
 dónde guardar lo que se genera, etc.) — se hace una sola vez desde la
-propia ventana, sin tocar ningún archivo. El PDF de la S-89
-(`PLANTILLA ASIGNACIONES.pdf`) no viene incluido — pídeselo a
-quien te ha pasado esta carpeta, o usa el que ya tenga tu congregación.
+propia ventana, sin tocar ningún archivo.
 
 Luego, cada semana solo hace falta:
 1. **Nueva asignación semanal** → elegir el PDF del VMC.
@@ -134,7 +243,7 @@ mensajes de asignación y de recordatorio, y la configuración avanzada
 (idioma, tema, tiempos de WhatsApp entre envíos) — todo con
 formularios, sin archivos ni comandos.
 
-## Modo terminal (avanzado)
+## ⌨️ Modo terminal (avanzado)
 
 ### 1. Editar la lista de contactos
 
@@ -223,14 +332,15 @@ escaneas con el móvil (WhatsApp > Ajustes > Dispositivos vinculados) y ya
 no hace falta repetirlo en las siguientes ejecuciones (queda la sesión
 guardada en tu propio ordenador).
 
-**¿Es seguro?** No hay una garantía absoluta, pero el riesgo es bajo: se
-manda a contactos conocidos (no desconocidos ni listas grandes), y se
-hace controlando un navegador de verdad sobre WhatsApp Web — como si lo
-hicieras tú a mano, solo que automático — en vez de usar alguna librería
-no oficial que hable directo con WhatsApp. Se respetan además pausas
-entre mensajes para no parecer un envío masivo.
+> [!NOTE]
+> **¿Es seguro?** No hay una garantía absoluta, pero el riesgo es bajo: se
+> manda a contactos conocidos (no desconocidos ni listas grandes), y se
+> hace controlando un navegador de verdad sobre WhatsApp Web — como si lo
+> hicieras tú a mano, solo que automático — en vez de usar alguna librería
+> no oficial que hable directo con WhatsApp. Se respetan además pausas
+> entre mensajes para no parecer un envío masivo.
 
-## Estructura de salida
+## 🗂️ Estructura de salida
 
 ```
 output/
@@ -241,7 +351,7 @@ output/
     └── ...
 ```
 
-## Repartir esta app a otra persona o congregación
+## 🤝 Repartir esta app a otra persona o congregación
 
 Ejecuta `./package.sh` (desde una terminal, en tu copia de trabajo) y
 genera `dist/life-ministry-assistant-AAAAMMDD.zip`: una copia limpia del
@@ -252,3 +362,7 @@ descomprimirlo y seguir la sección "Instalación" de arriba. Si más
 adelante cambias algo del código, vuelve a ejecutar `./package.sh`
 para generar un zip actualizado — no hace falta ningún paso extra por
 sistema operativo, es la misma carpeta para Windows, Mac y Linux.
+
+---
+
+<p align="center"><sub>Con licencia MIT — ver <a href="LICENSE">LICENSE</a>.</sub></p>
