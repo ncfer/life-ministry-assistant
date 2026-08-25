@@ -24,8 +24,14 @@
 
 ---
 
+<p align="center"><sub><strong>Assignment slips, start to finish</strong></sub></p>
 <p align="center">
   <img src="docs/demo/demo_en.gif" width="700" alt="Demo: picking the workbook, reviewing assignments, previewing slips, and confirming before sending">
+</p>
+
+<p align="center"><sub><strong>Meeting reminders, start to finish</strong> — the program photo below is a made-up example, not a real workbook page</sub></p>
+<p align="center">
+  <img src="docs/demo/demo_reminders_en.gif" width="700" alt="Demo: reminders review table and confirmation screen, with a fictional example program and names">
 </p>
 
 There are two ways to use it: with a **window** (built for anyone, no
@@ -136,11 +142,6 @@ A couple more screens that aren't in the walkthrough above:
     </td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="docs/demo/demo_reminders_en.gif" width="700" alt="Demo: reminders review table and confirmation screen, with a fictional example program and names">
-</p>
-<p align="center"><sub>The program photo above is a made-up example, not a real workbook page — see the note below.</sub></p>
 
 > [!NOTE]
 > This project isn't affiliated with or endorsed by Jehovah's Witnesses,
