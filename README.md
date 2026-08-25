@@ -24,21 +24,17 @@
 
 ---
 
+<p align="center">
+  <img src="docs/demo/demo_en.gif" width="700" alt="Demo: picking the workbook, reviewing assignments, previewing slips, and confirming before sending">
+</p>
+
 There are two ways to use it: with a **window** (built for anyone, no
 computer skills needed) or from the **terminal** (faster once you're
 used to it). Both do the same thing under the hood.
 
+A couple more screens that aren't in the walkthrough above:
+
 <table>
-  <tr>
-    <td width="50%">
-      <img src="docs/screenshots/en/home.png" width="100%" alt="Home screen"><br>
-      <sub><strong>Home screen.</strong> New assignment, reminders, or settings — everything starts here.</sub>
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/en/workbook_picker.png" width="100%" alt="Picking the meeting workbook, with the Padlet source already configured"><br>
-      <sub><strong>Pick the workbook.</strong> A local PDF, a Padlet board, or a Google Drive link.</sub>
-    </td>
-  </tr>
   <tr>
     <td width="50%">
       <img src="docs/screenshots/en/contacts.png" width="100%" alt="Contact list editor"><br>
@@ -47,16 +43,6 @@ used to it). Both do the same thing under the hood.
     <td width="50%">
       <img src="docs/screenshots/en/message.png" width="100%" alt="WhatsApp message template editor with live preview"><br>
       <sub><strong>Message editor.</strong> Live preview of exactly what the recipient will get.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="docs/screenshots/en/preview.png" width="100%" alt="Preview of the generated assignment slips before sending"><br>
-      <sub><strong>Preview.</strong> Every slip, generated and reviewable, before anything goes out.</sub>
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/en/send_confirm.png" width="100%" alt="Final confirmation step showing the exact WhatsApp message before sending"><br>
-      <sub><strong>Confirm & send.</strong> The exact message, exactly as it'll arrive — nothing sends without this checkbox.</sub>
     </td>
   </tr>
 </table>
@@ -150,6 +136,11 @@ used to it). Both do the same thing under the hood.
     </td>
   </tr>
 </table>
+
+<p align="center">
+  <img src="docs/demo/demo_reminders_en.gif" width="700" alt="Demo: reminders review table and confirmation screen, with a fictional example program and names">
+</p>
+<p align="center"><sub>The program photo above is a made-up example, not a real workbook page — see the note below.</sub></p>
 
 > [!NOTE]
 > This project isn't affiliated with or endorsed by Jehovah's Witnesses,
