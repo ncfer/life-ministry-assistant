@@ -1,6 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
-cd /d "%~dp0"
+REM This file now lives in launcher\, but venv\, requirements.txt and the
+REM assistant package it runs are all one level up, at the project root.
+cd /d "%~dp0.."
 set LOG=%TEMP%\life_ministry_assistant_setup.log
 
 where python >nul 2>nul

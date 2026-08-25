@@ -161,14 +161,17 @@ used to it). Both do the same thing under the hood.
 ## 📦 Installation (first time only)
 
 No terminal or computer skills needed: unzip the folder wherever you
-want and double-click your system's launcher:
+want, and open the `launcher` folder for your system's launcher — except
+on Windows with a pre-built `.exe`, which sits at the top level instead
+(see below):
 
-- **Windows:** if `LifeMinistryAssistant.exe` exists in this folder, use
-  it — it doesn't need Python installed (everything's bundled), it's
-  about 150–200 MB, and it starts right up. If it doesn't exist, use
-  `launch_gui.bat` instead (does the same thing, but needs Python
-  installed and shows up as a console window). You can create a Desktop
-  shortcut by right-clicking either one → "Create shortcut".
+- **Windows:** if `LifeMinistryAssistant.exe` exists at the top level of
+  this folder, use it — it doesn't need Python installed (everything's
+  bundled), it's about 150–200 MB, and it starts right up. If it doesn't
+  exist, open `launcher/` and use `launch_gui.bat` instead (does the same
+  thing, but needs Python installed and shows up as a console window).
+  You can create a Desktop shortcut by right-clicking either one →
+  "Create shortcut".
   (`LifeMinistryAssistant.exe` doesn't ship pre-built in the zip because of
   its size — whoever distributes the app can build it once by running
   `dev/build_exe.bat` on a real Windows machine, see the comment inside
@@ -184,14 +187,14 @@ want and double-click your system's launcher:
   > run it. Click **More info**, then **Run anyway**. A free code-signing
   > certificate from [SignPath Foundation](https://signpath.org/) is in
   > progress, which will remove this warning once approved.
-- **Mac:** `launch_gui.command` (don't use `launch_gui.sh` for
-  double-clicking — Mac would open it as a text file instead of running
-  it). The first time, Mac may warn that it's from "an unidentified
-  developer" — right-click the file → **Open**, and confirm the prompt
-  (only needed that one time).
-- **Linux:** double-click `launch_gui.sh` (if your file manager asks
-  what to do, choose "Run" or "Run in terminal"), or from a terminal:
-  `./launch_gui.sh`.
+- **Mac:** open `launcher/` and double-click `launch_gui.command` (don't
+  use `launch_gui.sh` for double-clicking — Mac would open it as a text
+  file instead of running it). The first time, Mac may warn that it's
+  from "an unidentified developer" — right-click the file → **Open**, and
+  confirm the prompt (only needed that one time).
+- **Linux:** open `launcher/` and double-click `launch_gui.sh` (if your
+  file manager asks what to do, choose "Run" or "Run in terminal"), or
+  from a terminal: `./launcher/launch_gui.sh`.
 
 The first time you open it, everything installs itself — the Python
 environment, all dependencies, and the browser for WhatsApp if needed —
@@ -341,13 +344,13 @@ output/
 
 ## 🤝 Sharing this app with someone else or another congregation
 
-Run `./package.sh` (from a terminal, in your working copy) to generate
+Run `./dev/package.sh` (from a terminal, in your working copy) to generate
 `dist/life-ministry-assistant-YYYYMMDD.zip`: a clean copy of the
 project, without your contacts, your send history, your configuration,
 any workbooks you've used, or your own customized message wording —
 just the code and a sample `contacts.csv`. Share it as-is; whoever receives it just needs to
 unzip it and follow the "Installation" section above. If you change
-something in the code later, run `./package.sh` again to generate an
+something in the code later, run `./dev/package.sh` again to generate an
 updated zip — no extra steps per operating system, it's the same
 folder for Windows, Mac and Linux.
 

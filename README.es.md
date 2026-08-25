@@ -162,14 +162,17 @@ rápida si ya la manejas). Ambas hacen lo mismo por dentro.
 ## 📦 Instalación (solo la primera vez)
 
 No hace falta terminal ni saber de ordenadores: descomprime la carpeta
-donde quieras y haz doble clic en el lanzador de tu sistema:
+donde quieras, y abre la carpeta `launcher` para encontrar el lanzador
+de tu sistema — salvo en Windows si hay un `.exe` ya compilado, que va
+suelto en la carpeta principal (ver más abajo):
 
-- **Windows:** si existe `LifeMinistryAssistant.exe` en esta carpeta, úsalo — no
-  necesita tener Python instalado (va todo incluido), pesa unos 150-200 MB
-  y arranca directo. Si no existe, usa `launch_gui.bat` en su lugar (hace lo
-  mismo, pero necesita Python instalado y se ve como una ventana de
-  consola). Puedes crear un acceso directo en el Escritorio con botón
-  derecho → "Crear acceso directo" sobre cualquiera de los dos.
+- **Windows:** si existe `LifeMinistryAssistant.exe` en la carpeta
+  principal, úsalo — no necesita tener Python instalado (va todo
+  incluido), pesa unos 150-200 MB y arranca directo. Si no existe, entra
+  en `launcher/` y usa `launch_gui.bat` en su lugar (hace lo mismo, pero
+  necesita Python instalado y se ve como una ventana de consola). Puedes
+  crear un acceso directo en el Escritorio con botón derecho → "Crear
+  acceso directo" sobre cualquiera de los dos.
   (`LifeMinistryAssistant.exe` no viene ya compilado en el zip por su tamaño — quien
   lo reparte puede generarlo una vez ejecutando `dev/build_exe.bat` en un
   Windows real, ver el comentario dentro de ese archivo. `LifeMinistryAssistant.exe`
@@ -187,14 +190,14 @@ donde quieras y haz doble clic en el lanzador de tu sistema:
   > certificado gratuito de firma de código con
   > [SignPath Foundation](https://signpath.org/) que eliminará este aviso
   > una vez aprobada.
-- **Mac:** `launch_gui.command` (no uses `launch_gui.sh` para el doble
-  clic, Mac lo abriría como texto en vez de ejecutarlo). La primera vez
-  puede que Mac avise de que es de "un desarrollador no identificado" —
-  haz clic derecho sobre el archivo → **Abrir**, y confirma en el aviso
-  (solo hace falta esa vez).
-- **Linux:** doble clic en `launch_gui.sh` (si el gestor de archivos
-  pregunta qué hacer, elige "Ejecutar" o "Ejecutar en terminal"), o desde
-  una terminal: `./launch_gui.sh`.
+- **Mac:** entra en `launcher/` y haz doble clic en `launch_gui.command`
+  (no uses `launch_gui.sh` para el doble clic, Mac lo abriría como texto
+  en vez de ejecutarlo). La primera vez puede que Mac avise de que es de
+  "un desarrollador no identificado" — haz clic derecho sobre el archivo
+  → **Abrir**, y confirma en el aviso (solo hace falta esa vez).
+- **Linux:** entra en `launcher/` y haz doble clic en `launch_gui.sh` (si
+  el gestor de archivos pregunta qué hacer, elige "Ejecutar" o "Ejecutar
+  en terminal"), o desde una terminal: `./launcher/launch_gui.sh`.
 
 La primera vez que lo abras se instala todo solo — entorno de Python,
 todas las dependencias, y el navegador para WhatsApp si hace falta —,
@@ -353,13 +356,13 @@ output/
 
 ## 🤝 Repartir esta app a otra persona o congregación
 
-Ejecuta `./package.sh` (desde una terminal, en tu copia de trabajo) y
+Ejecuta `./dev/package.sh` (desde una terminal, en tu copia de trabajo) y
 genera `dist/life-ministry-assistant-AAAAMMDD.zip`: una copia limpia del
 proyecto, sin tus contactos, tu historial de envíos, tu configuración,
 los VMC que hayas usado ni tus mensajes personalizados — solo el código
 y un `contacts.csv` de ejemplo. Compártelo tal cual; quien lo reciba solo tiene que
 descomprimirlo y seguir la sección "Instalación" de arriba. Si más
-adelante cambias algo del código, vuelve a ejecutar `./package.sh`
+adelante cambias algo del código, vuelve a ejecutar `./dev/package.sh`
 para generar un zip actualizado — no hace falta ningún paso extra por
 sistema operativo, es la misma carpeta para Windows, Mac y Linux.
 

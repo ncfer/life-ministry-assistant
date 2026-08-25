@@ -490,7 +490,7 @@ _TEXTS: dict[str, dict[str, str]] = {
         # never renamed — since a script/alias/README a congregation
         # already wrote using them should keep working. ---
         "cli.ayuda_plantilla": "PLANTILLA ASIGNACIONES.pdf (con el AcroForm)",
-        "cli.ayuda_contactos": "CSV con columnas name,phone (ver contacts.example.csv)",
+        "cli.ayuda_contactos": "CSV con columnas name,phone (ver launcher/contacts.example.csv)",
         "cli.ayuda_mensaje": "Plantilla de texto del mensaje de WhatsApp",
         "cli.ayuda_mes": "YYYY-MM: procesar solo ese mes",
         "cli.ayuda_semanas": "Fechas YYYY-MM-DD separadas por coma",
@@ -978,7 +978,7 @@ _TEXTS: dict[str, dict[str, str]] = {
         # --- cli.py (terminal mode) — see the matching Spanish section
         # above for why this follows the UI language. ---
         "cli.ayuda_plantilla": "The S-89 assignment template PDF (with the AcroForm)",
-        "cli.ayuda_contactos": "CSV with name,phone columns (see contacts.example.csv)",
+        "cli.ayuda_contactos": "CSV with name,phone columns (see launcher/contacts.example.csv)",
         "cli.ayuda_mensaje": "WhatsApp message text template",
         "cli.ayuda_mes": "YYYY-MM: process only that month",
         "cli.ayuda_semanas": "YYYY-MM-DD dates, comma-separated",

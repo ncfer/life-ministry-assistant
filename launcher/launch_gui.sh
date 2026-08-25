@@ -2,7 +2,9 @@
 # Opens the Life & Ministry Assistant GUI. The first time it runs it
 # installs itself (virtual environment + dependencies + browser if
 # needed); after that it just opens the window.
-cd "$(dirname "${BASH_SOURCE[0]}")"
+# This file now lives in launcher/, but venv/, requirements.txt and the
+# assistant package it runs are all one level up, at the project root.
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 warn() {
     if command -v kdialog >/dev/null 2>&1; then
