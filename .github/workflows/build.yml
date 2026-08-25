@@ -34,7 +34,13 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install --upgrade pip pyinstaller
       - run: python -m pip install -r requirements.txt
-      - run: python -m PyInstaller --onefile --windowed --name LifeMinistryAssistant --add-data "assets:assets" app_entry.py
+      # No --onefile here: PyInstaller warns it doesn't make sense combined
+      # with a windowed macOS .app bundle (a .app can't be a single file
+      # anyway) and says this becomes a hard error in PyInstaller v7.0.
+      # onedir (the default without --onefile) is what a proper .app is
+      # built from regardless — Windows keeps --onefile since a single
+      # portable .exe is the actual goal there.
+      - run: python -m PyInstaller --windowed --name LifeMinistryAssistant --add-data "assets:assets" app_entry.py
       - uses: actions/upload-artifact@v7
         with:
           name: LifeMinistryAssistant-macos
