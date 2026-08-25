@@ -4,9 +4,11 @@
 # history, config with your NAS paths, already-used VMCs, your own
 # customized message templates, virtual environment...).
 #
-# Usage: ./package.sh   (run from this project, by you, not the recipient)
+# Usage: ./dev/package.sh   (run from this project, by you, not the recipient)
 set -euo pipefail
-cd "$(dirname "${BASH_SOURCE[0]}")"
+# This script now lives in dev/, but it packages the project root one
+# level up — everything below (rsync source, excludes) is relative to that.
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 NAME="life-ministry-assistant"
 DATE=$(date +%Y%m%d)
@@ -31,16 +33,15 @@ rsync -a \
     --exclude "message.txt" \
     --exclude "reminder_message.txt" \
     --exclude "VMC*.pdf" \
-    --exclude "package.sh" \
     --exclude "dev/" \
     ./ "$FOLDER/"
 
 # Ready-to-edit example contacts (instead of an empty CSV with no hint of
 # the expected format); the user replaces them from the app itself.
-cp contacts.example.csv "$FOLDER/contacts.csv"
+cp launcher/contacts.example.csv "$FOLDER/contacts.csv"
 mkdir -p "$FOLDER/output"
 
-chmod +x "$FOLDER/launch_gui.sh" "$FOLDER/launch_gui.command" 2>/dev/null || true
+chmod +x "$FOLDER/launcher/launch_gui.sh" "$FOLDER/launcher/launch_gui.command" 2>/dev/null || true
 
 (cd "$DEST" && rm -f "${NAME}-${DATE}.zip" && zip -rq "${NAME}-${DATE}.zip" "$NAME")
 
