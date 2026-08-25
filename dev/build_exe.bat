@@ -12,7 +12,10 @@ REM Run ONCE on a real Windows machine (PyInstaller doesn't cross-compile
 REM from Linux/Mac). Only needs repeating if the app's code changes - not
 REM on every use.
 setlocal
-cd /d "%~dp0"
+REM This script now lives in dev/, but everything it builds from
+REM (app_entry.py, requirements.txt, assets/) is one level up, at the
+REM project root — so it cd's to the parent, not to its own folder.
+cd /d "%~dp0.."
 
 where python >nul 2>nul
 if errorlevel 1 (

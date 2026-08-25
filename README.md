@@ -1,63 +1,164 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Life &amp; Ministry Assistant" width="420">
+  <img src="assets/logo.png" alt="Life &amp; Ministry Assistant" width="150">
 </p>
 
-<p align="center"><i><a href="README.es.md">Leer en español →</a></i></p>
+<h1 align="center">Life & Ministry Assistant 🗓️</h1>
 
-Generates assignment slips (PDF/JPG) and calendar reminders from the
-Life and Ministry Meeting Workbook, and sends them over WhatsApp — no
-Excel, no macros, no BulkPDF/Wine. Works on Linux, Windows and Mac.
+<p align="center">
+  <strong>Turns the Life and Ministry Meeting Workbook into ready-to-send WhatsApp assignments — no Excel, no macros, no BulkPDF/Wine.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ncfer/life-ministry-assistant/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/ncfer/life-ministry-assistant?style=flat-square&color=0e6ba8"></a>
+  <a href="https://github.com/ncfer/life-ministry-assistant/actions/workflows/build.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/ncfer/life-ministry-assistant/build.yml?style=flat-square"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/ncfer/life-ministry-assistant?style=flat-square"></a>
+  <img alt="Platforms" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-0e6ba8?style=flat-square">
+</p>
+
+<p align="center">
+  <a href="https://github.com/ncfer/life-ministry-assistant/releases/latest">⬇ Download</a> ·
+  <a href="https://github.com/ncfer/life-ministry-assistant/issues/new?labels=bug">🐛 Report a bug</a> ·
+  <a href="https://github.com/ncfer/life-ministry-assistant/issues/new?labels=enhancement">✨ Request a feature</a> ·
+  <a href="README.es.md">🌐 Español</a>
+</p>
+
+---
 
 There are two ways to use it: with a **window** (built for anyone, no
 computer skills needed) or from the **terminal** (faster once you're
 used to it). Both do the same thing under the hood.
 
-<p align="center">
-  <img src="docs/screenshots/en/home.png" width="49%" alt="Home screen">
-  <img src="docs/screenshots/en/workbook_picker.png" width="49%" alt="Picking the meeting workbook, with the Padlet source already configured">
-</p>
-<p align="center">
-  <img src="docs/screenshots/en/contacts.png" width="49%" alt="Contact list editor">
-  <img src="docs/screenshots/en/message.png" width="49%" alt="WhatsApp message template editor with live preview">
-</p>
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/en/home.png" width="100%" alt="Home screen"><br>
+      <sub><strong>Home screen.</strong> New assignment, reminders, or settings — everything starts here.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/en/workbook_picker.png" width="100%" alt="Picking the meeting workbook, with the Padlet source already configured"><br>
+      <sub><strong>Pick the workbook.</strong> A local PDF, a Padlet board, or a Google Drive link.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/en/contacts.png" width="100%" alt="Contact list editor"><br>
+      <sub><strong>Contacts.</strong> Matched to each assignment automatically, with fuzzy-match suggestions.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/en/message.png" width="100%" alt="WhatsApp message template editor with live preview"><br>
+      <sub><strong>Message editor.</strong> Live preview of exactly what the recipient will get.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/screenshots/en/preview.png" width="100%" alt="Preview of the generated assignment slips before sending"><br>
+      <sub><strong>Preview.</strong> Every slip, generated and reviewable, before anything goes out.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/en/send_confirm.png" width="100%" alt="Final confirmation step showing the exact WhatsApp message before sending"><br>
+      <sub><strong>Confirm & send.</strong> The exact message, exactly as it'll arrive — nothing sends without this checkbox.</sub>
+    </td>
+  </tr>
+</table>
 
-## Features
+---
 
-- **Assignment slips** — generates the official S-89-style PDF/JPG slip
-  for every assignment that has one, straight from the Life and
-  Ministry Meeting workbook PDF. No manual copy-pasting.
-- **Calendar reminders** — attaches a `.ics` file, a Google Calendar
-  link, or both to each assignment, so it lands straight on the
-  person's phone calendar.
-- **Meeting reminders, beyond just the slip roles** — a separate flow
-  that reminds *everyone* with a part that week (Bible reading, Living
-  as Christians talks, prayers, Treasures/Digging Gems…, not only the
-  roles that get an official S-89 slip). It sends that week's program
-  photo with a short personalized caption for each participant.
-- **Three ways to bring in the workbook**: pick a local PDF, pull it
-  straight from a Padlet board (if your congregation posts it there),
-  or from a Google Drive link — no manual downloading once it's set up.
-- **WhatsApp sending, automated but careful** — drives a real Chrome/
-  Chromium window over WhatsApp Web (not an unofficial API pretending
-  to be WhatsApp), with pauses between sends and a manual confirmation
-  step before anything goes out.
-- **Smart contact matching** — looks up each person's phone number
-  automatically; if it can't find an exact match it suggests the
-  closest name instead of silently failing or sending nothing.
-- **Editable message templates with a live preview** — change the
-  wording without touching code. Placeholders like `{name}` or `{date}`
-  fill themselves in, and you see exactly what the recipient will get
-  before anything is sent.
-- **Send history** — every batch you send (assignments and reminders)
-  is logged, so you can check who got what and when.
-- **Two ways to use it** — a full windowed mode for anyone, or a
-  scriptable terminal/CLI mode for advanced or batch use.
-- **Switchable UI language** and a **light/dark theme**, both
-  changeable from Settings at any time.
-- **Runs anywhere** — Linux, Windows and Mac, either as a single-file
-  executable or straight from source.
+## 🔄 How it works
 
-## Installation (first time only)
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <h2>📄 → 🗓️</h2>
+      <strong>1. Bring in the workbook</strong><br>
+      <sub>Local PDF, a Padlet board, or a Google Drive link</sub>
+    </td>
+    <td align="center" width="33%">
+      <h2>🔍 → ✅</h2>
+      <strong>2. Review & auto-match</strong><br>
+      <sub>Names matched to phone numbers, edit whatever's missing</sub>
+    </td>
+    <td align="center" width="33%">
+      <h2>💬 → 📤</h2>
+      <strong>3. Send over WhatsApp</strong><br>
+      <sub>Real Chrome window, one confirm click, nothing sends by surprise</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## ✨ Features
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>📋 Assignment slips</strong><br>
+      Generates the official S-89-style PDF/JPG slip for every
+      assignment that has one, straight from the workbook PDF. No
+      manual copy-pasting.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🔔 Calendar reminders</strong><br>
+      Attaches a <code>.ics</code> file, a Google Calendar link, or
+      both — lands straight on the person's phone calendar.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>📣 Meeting reminders, beyond just the slip roles</strong><br>
+      A separate flow that reminds <em>everyone</em> with a part that
+      week (Bible reading, talks, prayers…), sending that week's
+      program photo with a short personalized caption for each person.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🧠 Smart contact matching</strong><br>
+      Looks up each person's phone number automatically; if it can't
+      find an exact match it suggests the closest name instead of
+      failing silently.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>✏️ Editable message templates, live preview</strong><br>
+      Change the wording without touching code. Placeholders like
+      <code>{name}</code> or <code>{date}</code> fill themselves in, and
+      you see exactly what gets sent before it's sent.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🕓 Send history</strong><br>
+      Every batch you send (assignments and reminders) is logged, so
+      you can check who got what and when.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>🖥️ Two ways to use it</strong><br>
+      A full windowed mode for anyone, or a scriptable terminal/CLI
+      mode for advanced or batch use.
+    </td>
+    <td width="50%" valign="top">
+      <strong>🌗 Switchable language & theme</strong><br>
+      UI language and a light/dark theme, both changeable from
+      Settings at any time.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" colspan="2">
+      <strong>🌍 Runs anywhere</strong><br>
+      Linux, Windows and Mac, either as a single-file executable or
+      straight from source.
+    </td>
+  </tr>
+</table>
+
+> [!NOTE]
+> This project isn't affiliated with or endorsed by Jehovah's Witnesses,
+> the Watch Tower Bible and Tract Society, WhatsApp, or Meta Platforms,
+> Inc. It's an independent tool that automates a real browser session
+> over WhatsApp Web — the same as using it by hand, just scripted — and
+> is built to help manage the S-89 assignment workflow.
+
+## 📦 Installation (first time only)
 
 No terminal or computer skills needed: unzip the folder wherever you
 want and double-click your system's launcher:
@@ -70,12 +171,19 @@ want and double-click your system's launcher:
   shortcut by right-clicking either one → "Create shortcut".
   (`LifeMinistryAssistant.exe` doesn't ship pre-built in the zip because of
   its size — whoever distributes the app can build it once by running
-  `build_exe.bat` on a real Windows machine, see the comment inside that
-  file. `LifeMinistryAssistant.exe` doesn't download a browser on its own:
+  `dev/build_exe.bat` on a real Windows machine, see the comment inside
+  that file. `LifeMinistryAssistant.exe` doesn't download a browser on its own:
   if it can't find Chrome, Edge or Chromium installed when sending over
   WhatsApp, it tells you clearly what to install. `launch_gui.bat` still
   offers to download its own browser automatically the first time if
   needed, same as before.)
+
+  > [!NOTE]
+  > `LifeMinistryAssistant.exe` isn't code-signed yet, so Windows
+  > SmartScreen may show "Windows protected your PC" the first time you
+  > run it. Click **More info**, then **Run anyway**. A free code-signing
+  > certificate from [SignPath Foundation](https://signpath.org/) is in
+  > progress, which will remove this warning once approved.
 - **Mac:** `launch_gui.command` (don't use `launch_gui.sh` for
   double-clicking — Mac would open it as a text file instead of running
   it). The first time, Mac may warn that it's from "an unidentified
@@ -98,13 +206,16 @@ want to send over WhatsApp using your own Chrome instead of a downloaded
 one, **Google Chrome** already installed — if you don't have it, the
 launcher downloads its own browser automatically, no action needed.
 
-## Windowed mode (recommended)
+## 🖱️ Windowed mode (recommended)
 
-The first time, it'll ask you to set up the paths (where the S-89
-assignment template PDF is, where to save generated files, etc.) —
-done once from the window itself, no files to touch by hand. The S-89
-template PDF isn't included — ask whoever gave you this folder, or use
-the one your congregation already has.
+> [!IMPORTANT]
+> The S-89 assignment template PDF isn't included (it's Watch Tower's
+> own form) — ask whoever gave you this folder for it, or use the one
+> your congregation already has.
+
+The first time, it'll ask you to set up the paths (where that template
+is, where to save generated files, etc.) — done once from the window
+itself, no files to touch by hand.
 
 After that, each week you just need to:
 1. **New weekly assignment** → pick the workbook PDF.
@@ -127,7 +238,7 @@ From the home screen you can also edit contacts, the assignment and
 reminder messages, and advanced settings (language, theme, WhatsApp
 timing between sends) — all through forms, no files or commands.
 
-## Terminal mode (advanced)
+## ⌨️ Terminal mode (advanced)
 
 ### 1. Editing the contact list
 
@@ -209,14 +320,15 @@ The first time, a Chrome window will open with a QR code — scan it with
 your phone (WhatsApp > Settings > Linked Devices) and you won't need to
 do it again on future runs (the session is saved on your own computer).
 
-**Is it safe?** There's no absolute guarantee, but the risk is low: it
-sends to known contacts (not strangers or large lists), and it works by
-controlling a real browser over WhatsApp Web — as if you were doing it
-by hand, just automated — instead of using some unofficial library that
-talks directly to WhatsApp. It also keeps pauses between messages so it
-doesn't look like a mass send.
+> [!NOTE]
+> **Is it safe?** There's no absolute guarantee, but the risk is low: it
+> sends to known contacts (not strangers or large lists), and it works by
+> controlling a real browser over WhatsApp Web — as if you were doing it
+> by hand, just automated — instead of using some unofficial library that
+> talks directly to WhatsApp. It also keeps pauses between messages so it
+> doesn't look like a mass send.
 
-## Output structure
+## 🗂️ Output structure
 
 ```
 output/
@@ -227,7 +339,7 @@ output/
     └── ...
 ```
 
-## Sharing this app with someone else or another congregation
+## 🤝 Sharing this app with someone else or another congregation
 
 Run `./package.sh` (from a terminal, in your working copy) to generate
 `dist/life-ministry-assistant-YYYYMMDD.zip`: a clean copy of the
@@ -238,3 +350,7 @@ unzip it and follow the "Installation" section above. If you change
 something in the code later, run `./package.sh` again to generate an
 updated zip — no extra steps per operating system, it's the same
 folder for Windows, Mac and Linux.
+
+---
+
+<p align="center"><sub>MIT licensed — see <a href="LICENSE">LICENSE</a>.</sub></p>
