@@ -3,11 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from PyQt6.QtWidgets import (
-    QFrame, QHBoxLayout, QLabel, QMessageBox, QProgressBar, QScrollArea,
-    QVBoxLayout, QWidget,
+    QFileDialog, QFrame, QHBoxLayout, QLabel, QMessageBox, QProgressBar,
+    QScrollArea, QVBoxLayout, QWidget,
 )
 
 from ...history import log_entry
+from ...manual_export import export_for_manual_send
 from ...i18n import t
 from ..style import SUCCESS, WARNING_TEXT
 from ..widgets import Card, IconLabel, NavButton, StatusDot, WarningBanner
@@ -84,6 +85,11 @@ class SendingProgressPage(QWidget):
         self.cancel_button.clicked.connect(self._cancel)
         buttons.addWidget(self.cancel_button)
         buttons.addStretch()
+        self.manual_button = NavButton(t("envio.guardar_manual"), icon_name="folder-open")
+        self.manual_button.setToolTip(t("envio.guardar_manual_ayuda"))
+        self.manual_button.clicked.connect(self._save_manually)
+        self.manual_button.hide()
+        buttons.addWidget(self.manual_button)
         self.retry_button = NavButton(t("comun.reintentar_fallidos"), icon_name="rotate-ccw")
         self.retry_button.clicked.connect(self._retry)
         self.retry_button.hide()
@@ -111,6 +117,7 @@ class SendingProgressPage(QWidget):
         self._failed = []
         self.qr_banner.hide()
         self.retry_button.hide()
+        self.manual_button.hide()
         items = [(gi.assignment, gi.jpg, gi.ics) for gi in self.main_window.state.generated]
         self._start_sending(items)
 
@@ -132,6 +139,7 @@ class SendingProgressPage(QWidget):
         self.home_button.setEnabled(False)
         self.cancel_button.setEnabled(True)
         self.retry_button.hide()
+        self.manual_button.hide()
         self.qr_banner.hide()
 
         self.progress_bar.setRange(0, len(items))
@@ -199,6 +207,9 @@ class SendingProgressPage(QWidget):
             self.status_label.setText(t("sending.terminado_n_fallidos", n=len(self._failed)))
             self.retry_button.setText(t("comun.reintentar_fallidos_n", n=len(self._failed)))
             self.retry_button.show()
+            # Only the failed ones are offered: a successful send already
+            # deleted its files (see _cleanup_generated).
+            self.manual_button.show()
         else:
             self.status_label.setText(t("sending.terminado_bien"))
         self.cancel_button.setEnabled(False)
@@ -221,4 +232,34 @@ class SendingProgressPage(QWidget):
         self.qr_banner.hide()
         self.cancel_button.setEnabled(False)
         self.home_button.setEnabled(True)
+        # When sending blows up as a whole (no browser, session gone),
+        # nobody got a result callback, so _failed is empty and the
+        # export falls back to everything that was generated.
+        self.manual_button.show()
         QMessageBox.critical(self, t("comun.error_enviar_titulo"), message)
+
+    def _save_manually(self) -> None:
+        """Dumps what couldn't be sent into a folder the user picks, so
+        it can be sent by hand from the phone."""
+        items = self._failed or [
+            (gi.assignment, gi.jpg, gi.ics) for gi in self.main_window.state.generated
+        ]
+        if not items:
+            return
+        folder = QFileDialog.getExistingDirectory(self, t("envio.guardar_manual_titulo"))
+        if not folder:
+            return
+        try:
+            created = export_for_manual_send(
+                items, Path(folder),
+                Path(self.main_window.config.paths.message_txt),
+                self.main_window.state.reminder_mode,
+            )
+        except Exception as error:
+            QMessageBox.critical(
+                self, t("comun.error_enviar_titulo"),
+                t("envio.guardado_error", error=error))
+            return
+        QMessageBox.information(
+            self, t("envio.guardar_manual"),
+            t("envio.guardado_ok", n=len(created), ruta=folder))

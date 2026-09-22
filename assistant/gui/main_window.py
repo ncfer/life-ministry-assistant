@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMainWindow, QMessageBox, QStackedWidget
 
 from .. import i18n
 from ..config import load_config, persist_config
+from .dialogs.about import AboutDialog
 from .dialogs.contacts_editor import ContactsEditorDialog
 from .dialogs.general_settings import GeneralSettingsDialog
 from .dialogs.history_dialog import HistoryDialog
@@ -22,6 +23,7 @@ from .pages.sending_progress import SendingProgressPage
 from .pages.workbook_picker import WorkbookPickerPage
 from .pages.week_picker import WeekPickerPage
 from .state import ReminderState, WizardState
+from .workers import CheckUpdateThread
 
 IDX_HOME, IDX_WORKBOOK, IDX_WEEK, IDX_REVIEW, IDX_PREVIEW, IDX_CONFIRM, IDX_SENDING = range(7)
 IDX_REMINDER_WORKBOOK, IDX_REMINDER_WEEK, IDX_REMINDER_REVIEW, IDX_REMINDER_CONFIRM, IDX_REMINDER_SENDING = range(7, 12)
@@ -82,13 +84,47 @@ class MainWindow(QMainWindow):
 
         self._check_initial_setup()
         self.go_to(IDX_HOME)
+        self._update_thread: CheckUpdateThread | None = None
+        if self.config.check_updates:
+            self._start_update_check()
 
     # --- navigation ---------------------------------------------------
     def go_to(self, index: int) -> None:
+        """Moves FORWARD: the page rebuilds itself from the current state."""
         page = self.stack.widget(index)
         if hasattr(page, "enter"):
             page.enter()
         self.stack.setCurrentIndex(index)
+
+    def go_back(self, index: int) -> None:
+        """Moves BACKWARD, deliberately without calling enter().
+
+        Going back used to reuse go_to(), which re-ran the target page's
+        enter() — and that means re-resolving every phone number against
+        contacts.csv (review_assignments) or regenerating every PDF and
+        JPG from scratch (preview). Walking back a few steps rebuilt
+        everything several times over, with a progress bar on each one.
+        Going back should show what was already there; only moving
+        forward regenerates, so changing a week and going forward again
+        still rebuilds what depends on it.
+        """
+        self.stack.setCurrentIndex(index)
+
+    def go_home(self) -> None:
+        """Leaves the wizard from any step (the 'Back to start' button).
+
+        Asks first: the generated files stay on disk, but the wizard's
+        own state is dropped, and getting here by accident midway
+        through would mean redoing the picking and reviewing.
+        """
+        answer = QMessageBox.question(
+            self, i18n.t("pasos.confirmar_salir_titulo"),
+            i18n.t("pasos.confirmar_salir_msg"),
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer == QMessageBox.StandardButton.Yes:
+            self.go_to(IDX_HOME)
 
     def new_assignment(self) -> None:
         self.state = WizardState()
@@ -142,6 +178,23 @@ class MainWindow(QMainWindow):
         if dialog.exec():
             self.config = dialog.config
             self.save_config()
+
+    # --- updates ---------------------------------------------------------
+    def open_about(self) -> None:
+        AboutDialog(self, self).exec()
+
+    def _start_update_check(self) -> None:
+        """Startup check, in the background: it must never delay the
+        window appearing, and a machine with no internet must notice
+        nothing at all."""
+        self._update_thread = CheckUpdateThread(self)
+        self._update_thread.done.connect(self._on_update_checked)
+        self._update_thread.start()
+
+    def _on_update_checked(self, state: str, version: str, url: str) -> None:
+        if state == "nueva":
+            self.home_page.about_row.set_subtitle(
+                i18n.t("acerca.hay_nueva", version=version))
 
     def open_history(self) -> None:
         dialog = HistoryDialog(self.config.paths.history_csv, self)

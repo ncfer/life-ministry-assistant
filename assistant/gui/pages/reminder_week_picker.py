@@ -23,7 +23,7 @@ class ReminderWeekPickerPage(QWidget):
         layout.setContentsMargins(36, 30, 36, 30)
         layout.setSpacing(12)
 
-        layout.addWidget(StepHeader(t("rec_semana.titulo"), 2, steps=REMINDER_STEPS))
+        layout.addWidget(StepHeader(t("rec_semana.titulo"), 2, steps=REMINDER_STEPS, on_home=self.main_window.go_home))
 
         help_label = QLabel(t("rec_semana.ayuda"))
         help_label.setProperty("help", True)
@@ -65,7 +65,7 @@ class ReminderWeekPickerPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(7))
+        back_button.clicked.connect(lambda: self.main_window.go_back(7))
         buttons.addWidget(back_button)
         buttons.addStretch()
         next_button = NavButton(t("comun.siguiente"), direction="next", primary=True)

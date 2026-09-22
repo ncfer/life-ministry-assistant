@@ -37,7 +37,7 @@ class ReminderConfirmPage(QWidget):
         layout.setContentsMargins(32, 26, 32, 26)
         layout.setSpacing(10)
 
-        layout.addWidget(StepHeader(t("rec_confirmar.titulo"), 4, steps=REMINDER_STEPS))
+        layout.addWidget(StepHeader(t("rec_confirmar.titulo"), 4, steps=REMINDER_STEPS, on_home=self.main_window.go_home))
 
         self.summary = IconLabel("check", SUCCESS)
         layout.addWidget(self.summary)
@@ -93,7 +93,7 @@ class ReminderConfirmPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(9))
+        back_button.clicked.connect(lambda: self.main_window.go_back(9))
         buttons.addWidget(back_button)
         self.test_button = NavButton(t("comun.probar_conmigo"), icon_name="wand-sparkles")
         self.test_button.clicked.connect(self._try_it)

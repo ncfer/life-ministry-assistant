@@ -40,7 +40,7 @@ class ReminderReviewPage(QWidget):
         layout.setContentsMargins(32, 26, 32, 26)
         layout.setSpacing(10)
 
-        layout.addWidget(StepHeader(t("rec_revisar.titulo"), 3, steps=REMINDER_STEPS))
+        layout.addWidget(StepHeader(t("rec_revisar.titulo"), 3, steps=REMINDER_STEPS, on_home=self.main_window.go_home))
 
         self.warning_banner = WarningBanner()
         self.warning_banner.hide()
@@ -71,7 +71,7 @@ class ReminderReviewPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(8))
+        back_button.clicked.connect(lambda: self.main_window.go_back(8))
         buttons.addWidget(back_button)
         buttons.addStretch()
         self.next_button = NavButton(t("rec_revisar.continuar"), direction="next", primary=True)

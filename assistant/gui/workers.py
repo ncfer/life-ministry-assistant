@@ -19,6 +19,7 @@ from ..models import Assignment
 from ..padlet import PadletError, list_pdfs_by_title
 from ..parse_workbook import parse_workbook
 from ..to_jpg import pdf_to_jpg
+from ..updates import is_newer, latest_release
 from ..reminder_workbook import Participant, parse_reminder_workbook, crop_week_jpg
 from .state import GeneratedItem
 
@@ -418,3 +419,22 @@ class SendRemindersThread(QThread):
             self.completed.emit()
         except Exception as e:
             self.error.emit(t("errores.error_enviando_recordatorios", error=e))
+
+
+class CheckUpdateThread(QThread):
+    """Asks GitHub for the latest release.
+
+    Emits one of three states — "nueva", "al_dia" or "error" — kept
+    apart on purpose: a failed check must never be shown as "you're up
+    to date", or a user stuck on an old version would never find out."""
+
+    done = pyqtSignal(str, str, str)  # state, version, url
+
+    def run(self) -> None:
+        release = latest_release()
+        if release is None:
+            self.done.emit("error", "", "")  # no network, or GitHub said no
+        elif is_newer(release.version):
+            self.done.emit("nueva", release.version, release.url)
+        else:
+            self.done.emit("al_dia", "", "")

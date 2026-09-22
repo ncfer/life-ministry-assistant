@@ -24,9 +24,17 @@ REMINDER_STEPS = [t("pasos.vmc"), t("pasos.semana"), t("pasos.revisar"), t("paso
 
 
 class StepHeader(QWidget):
-    """Page title + thin "Step X of N" progress bar."""
+    """Page title + thin "Step X of N" progress bar.
 
-    def __init__(self, title: str, current_step: int, parent=None, steps: list[str] | None = None):
+    `on_home` adds a "Back to start" button next to the title. Without
+    it, leaving a wizard midway meant pressing "Back" once per step —
+    and every one of those steps used to rebuild itself on the way out
+    (see MainWindow.go_back)."""
+
+    def __init__(
+        self, title: str, current_step: int, parent=None,
+        steps: list[str] | None = None, on_home=None,
+    ):
         super().__init__(parent)
         steps = steps or STEPS
         layout = QVBoxLayout(self)
@@ -47,9 +55,17 @@ class StepHeader(QWidget):
             bar.addWidget(segment)
         layout.addLayout(bar)
 
+        title_row = QHBoxLayout()
+        title_row.setContentsMargins(0, 0, 0, 0)
         title_label = QLabel(title)
         title_label.setProperty("title", True)
-        layout.addWidget(title_label)
+        title_row.addWidget(title_label)
+        title_row.addStretch()
+        if on_home is not None:
+            home_button = NavButton(t("pasos.volver_inicio"), icon_name="house")
+            home_button.clicked.connect(on_home)
+            title_row.addWidget(home_button, alignment=Qt.AlignmentFlag.AlignVCenter)
+        layout.addLayout(title_row)
 
 
 class IconBadge(QWidget):
@@ -563,6 +579,17 @@ class NavButton(_ClickableFrame):
         else:
             layout.addWidget(self._label)
             layout.addWidget(self._icon)
+
+    def setText(self, text: str) -> None:
+        """Mirrors QPushButton's API on purpose.
+
+        Both sending screens relabel their retry button with the failure
+        count (`retry_button.setText(...)`), which a QFrame doesn't
+        have — so the call raised AttributeError in _on_finished, at the
+        exact moment a send HAD failed: no final summary, and the "Back
+        to start" button stayed disabled. Naming it setText fixes both
+        callers without touching either."""
+        self._label.setText(text)
 
     def _icon_color(self) -> str:
         if not self.isEnabled():

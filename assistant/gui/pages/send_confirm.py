@@ -30,7 +30,7 @@ class SendConfirmPage(QWidget):
         layout.setContentsMargins(36, 30, 36, 30)
         layout.setSpacing(14)
 
-        layout.addWidget(StepHeader(t("send_confirm.titulo"), 5))
+        layout.addWidget(StepHeader(t("send_confirm.titulo"), 5, on_home=self.main_window.go_home))
 
         self.summary = IconLabel("check", SUCCESS)
         layout.addWidget(self.summary)
@@ -75,7 +75,7 @@ class SendConfirmPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(4))
+        back_button.clicked.connect(lambda: self.main_window.go_back(4))
         buttons.addWidget(back_button)
         test_button = NavButton(t("comun.probar_conmigo"), icon_name="wand-sparkles")
         test_button.clicked.connect(self._try_it)

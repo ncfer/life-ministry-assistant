@@ -23,7 +23,7 @@ class WeekPickerPage(QWidget):
         layout.setContentsMargins(36, 30, 36, 30)
         layout.setSpacing(12)
 
-        layout.addWidget(StepHeader(t("week_picker.titulo"), 2))
+        layout.addWidget(StepHeader(t("week_picker.titulo"), 2, on_home=self.main_window.go_home))
 
         help_label = QLabel(t("week_picker.ayuda"))
         help_label.setProperty("help", True)
@@ -62,7 +62,7 @@ class WeekPickerPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(1))
+        back_button.clicked.connect(lambda: self.main_window.go_back(1))
         buttons.addWidget(back_button)
         buttons.addStretch()
         next_button = NavButton(t("comun.siguiente"), direction="next", primary=True)

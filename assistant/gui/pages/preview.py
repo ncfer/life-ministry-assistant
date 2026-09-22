@@ -34,7 +34,7 @@ class PreviewPage(QWidget):
         layout.setContentsMargins(32, 26, 32, 26)
         layout.setSpacing(10)
 
-        layout.addWidget(StepHeader(t("preview.titulo"), 4))
+        layout.addWidget(StepHeader(t("preview.titulo"), 4, on_home=self.main_window.go_home))
 
         help_label = QLabel(t("preview.ayuda"))
         help_label.setProperty("help", True)
@@ -64,7 +64,7 @@ class PreviewPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("preview.atras_corregir"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(3))
+        back_button.clicked.connect(lambda: self.main_window.go_back(3))
         buttons.addWidget(back_button)
         buttons.addStretch()
         self.next_button = NavButton(t("preview.todo_correcto"), direction="next", primary=True)

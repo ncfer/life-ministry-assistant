@@ -50,7 +50,7 @@ class ReviewAssignmentsPage(QWidget):
         layout.setContentsMargins(32, 26, 32, 26)
         layout.setSpacing(10)
 
-        layout.addWidget(StepHeader(t("review.titulo"), 3))
+        layout.addWidget(StepHeader(t("review.titulo"), 3, on_home=self.main_window.go_home))
 
         self.warning_banner = WarningBanner()
         self.warning_banner.hide()
@@ -96,7 +96,7 @@ class ReviewAssignmentsPage(QWidget):
 
         buttons = QHBoxLayout()
         back_button = NavButton(t("comun.atras"), direction="back")
-        back_button.clicked.connect(lambda: self.main_window.go_to(2))
+        back_button.clicked.connect(lambda: self.main_window.go_back(2))
         buttons.addWidget(back_button)
         buttons.addStretch()
         self.next_button = NavButton(t("review.generar_vista_previa"), direction="next", primary=True)

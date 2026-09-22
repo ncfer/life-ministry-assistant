@@ -86,6 +86,34 @@ _TEXTS: dict[str, dict[str, str]] = {
         "home.boton_contactos": "Contactos",
         "home.boton_config_general": "Configuración general",
         "home.boton_config_avanzada": "Configuración avanzada",
+        "home.boton_acerca_de": "Acerca de",
+
+        # --- About / updates ---
+        "acerca.titulo": "Acerca de",
+        "acerca.version": "Versión {version}",
+        "acerca.repo": "Repositorio en GitHub",
+        "acerca.buscar_actualizaciones": "Buscar actualizaciones al arrancar",
+        "acerca.comprobando": "Comprobando si hay actualizaciones...",
+        "acerca.al_dia": "Estás usando la última versión.",
+        "acerca.hay_nueva": "Hay una versión nueva: {version}",
+        "acerca.ver_descarga": "Ver descarga",
+        "acerca.sin_conexion": "No se pudo comprobar (sin conexión o GitHub no responde).",
+
+        # --- Leaving the wizard / manual export ---
+        "pasos.volver_inicio": "Volver al inicio",
+        "pasos.confirmar_salir_titulo": "¿Volver al inicio?",
+        "pasos.confirmar_salir_msg": (
+            "Se perderá lo que lleves hecho en este asistente. Los archivos "
+            "que ya se hayan generado siguen en la carpeta de salida."
+        ),
+        "envio.guardar_manual": "Guardar para enviar a mano",
+        "envio.guardar_manual_ayuda": (
+            "Copia la imagen, el recordatorio y el texto del mensaje de cada "
+            "persona en la carpeta que elijas, para enviarlos tú mismo."
+        ),
+        "envio.guardar_manual_titulo": "Elige dónde guardar los archivos",
+        "envio.guardado_ok": "Se han guardado {n} carpetas en {ruta}",
+        "envio.guardado_error": "No se pudieron guardar los archivos: {error}",
 
         # --- General settings ---
         "config_general.titulo_ventana": "Configuración general",
@@ -584,6 +612,34 @@ _TEXTS: dict[str, dict[str, str]] = {
         "home.boton_contactos": "Contacts",
         "home.boton_config_general": "General settings",
         "home.boton_config_avanzada": "Advanced settings",
+        "home.boton_acerca_de": "About",
+
+        # --- About / updates ---
+        "acerca.titulo": "About",
+        "acerca.version": "Version {version}",
+        "acerca.repo": "Repository on GitHub",
+        "acerca.buscar_actualizaciones": "Check for updates on startup",
+        "acerca.comprobando": "Checking for updates...",
+        "acerca.al_dia": "You're on the latest version.",
+        "acerca.hay_nueva": "A new version is available: {version}",
+        "acerca.ver_descarga": "Go to download",
+        "acerca.sin_conexion": "Couldn't check (no connection, or GitHub isn't answering).",
+
+        # --- Leaving the wizard / manual export ---
+        "pasos.volver_inicio": "Back to start",
+        "pasos.confirmar_salir_titulo": "Back to start?",
+        "pasos.confirmar_salir_msg": (
+            "Whatever you've done in this wizard will be lost. Files that "
+            "were already generated stay in the output folder."
+        ),
+        "envio.guardar_manual": "Save to send by hand",
+        "envio.guardar_manual_ayuda": (
+            "Copies each person's image, reminder and message text into a "
+            "folder you choose, so you can send them yourself."
+        ),
+        "envio.guardar_manual_titulo": "Choose where to save the files",
+        "envio.guardado_ok": "Saved {n} folders in {ruta}",
+        "envio.guardado_error": "The files couldn't be saved: {error}",
 
         "config_general.titulo_ventana": "General settings",
         "config_general.ayuda": (

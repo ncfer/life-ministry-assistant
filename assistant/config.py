@@ -107,6 +107,7 @@ class Config:
     theme: str = "sistema"  # "claro" | "oscuro" | "sistema"
     language: str = "es"  # "es" | "en" — see assistant/i18n.py
     test_number: str = ""  # number for the "Try it with me" button
+    check_updates: bool = True  # ask GitHub for a newer release on startup — see assistant/updates.py
 
 
 _CONFIG_LEGACY_KEYS = {
@@ -131,6 +132,7 @@ def load_config(path: Path = CONFIG_PATH) -> Config:
         theme=data.get("theme", "sistema"),
         language=data.get("language", "es"),
         test_number=data.get("test_number", ""),
+        check_updates=data.get("check_updates", True),
     )
 
 
@@ -148,6 +150,7 @@ def persist_config(config: Config, path: Path = CONFIG_PATH) -> None:
         "theme": config.theme,
         "language": config.language,
         "test_number": config.test_number,
+        "check_updates": config.check_updates,
     }
     tmp_path = path.with_suffix(path.suffix + ".tmp")
     tmp_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")

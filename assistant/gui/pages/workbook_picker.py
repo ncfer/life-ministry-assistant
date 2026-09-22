@@ -24,7 +24,7 @@ class WorkbookPickerPage(QWidget):
         layout.setContentsMargins(36, 30, 36, 30)
         layout.setSpacing(14)
 
-        layout.addWidget(StepHeader(t("workbook_picker.titulo"), 1))
+        layout.addWidget(StepHeader(t("workbook_picker.titulo"), 1, on_home=self.main_window.go_home))
 
         help_label = QLabel(t("workbook_picker.ayuda_asignaciones"))
         help_label.setProperty("help", True)
