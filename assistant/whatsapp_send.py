@@ -39,6 +39,28 @@ DEFAULT_MESSAGE_TEMPLATE = Path("message.txt")
 
 TIMEOUT_QR_MS = 120_000
 TIMEOUT_CHAT_MS = 30_000
+TIMEOUT_SENT_MS = 60_000
+
+# The clock icon WhatsApp shows on a message that hasn't left the browser
+# yet. It's the <title> of the status SVG, which is WhatsApp's own
+# internal name and therefore the same in every interface language —
+# unlike the aria-label next to it ("Pendiente"/"Pending"/...), which is
+# translated, and unlike the CSS classes, which are obfuscated.
+PENDING_ICON = "wds-ic-status-pending"
+
+class SendStepError(Exception):
+    """Says WHICH half of a send failed (slip or reminder).
+
+    history.csv keeps one line per person, not per attachment, so
+    without this the log only ever said "it failed" — and couldn't tell
+    a slip that never went out from a reminder that failed after the
+    slip had already arrived."""
+
+    def __init__(self, step: str, cause: Exception):
+        super().__init__(f"{step}: {cause}")
+        self.step = step
+        self.cause = cause
+
 
 ReminderMode = Literal["ics", "gcal", "ambos"]
 ProgressCallback = Callable[[str, int, int], None]
@@ -89,6 +111,27 @@ def _wait_for_chat_ready(page: Page, tiempos: TimingConfig) -> None:
         timeout=TIMEOUT_CHAT_MS,
     )
     page.wait_for_timeout(tiempos.open_chat_wait_s * 1000)
+
+
+def _wait_until_sent(page: Page) -> None:
+    """Waits until nothing in the open conversation is still pending.
+
+    Clicking the send button proves nothing: if the click lands before
+    the button is really live, Playwright still reports success, the
+    message never goes out, and the send gets logged as delivered. The
+    clock icon disappearing is the first moment WhatsApp itself confirms
+    the message left the browser.
+
+    Deliberately NOT waiting for the double check (delivered/read):
+    that depends on the recipient's phone being on, so a switched-off
+    phone would be recorded as a failed send when nothing failed.
+    """
+    page.wait_for_function(
+        """(pending) => ![...document.querySelectorAll('svg > title')]
+             .some(t => t.textContent === pending)""",
+        arg=PENDING_ICON,
+        timeout=TIMEOUT_SENT_MS,
+    )
 
 
 def _write_in_box(box, text: str) -> None:
@@ -157,6 +200,7 @@ def _attach_file(
 
     page.locator('span[data-icon="send"], span[data-icon="wds-ic-send-filled"]').first.click()
     page.wait_for_timeout(tiempos.after_send_wait_s * 1000)
+    _wait_until_sent(page)
 
 
 def _find_system_chromium() -> str | None:
@@ -252,6 +296,10 @@ def send_assignments(
 
             print(t("envio.enviando_a", nombre=assignment.name, telefono=assignment.phone))
             final_error: Exception | None = None
+            # Tracked across both attempts: if the slip already went out
+            # and only the reminder failed, retrying must not send the
+            # slip a second time.
+            slip_sent = False
             for attempt in (1, 2):
                 if page.is_closed():
                     # The browser crashed (seen in practice after several
@@ -265,9 +313,17 @@ def send_assignments(
                     text = format_message(assignment, template, modo_recordatorio)
                     page.goto(f"https://web.whatsapp.com/send?phone={assignment.phone}")
                     _wait_for_chat_ready(page, tiempos)
-                    _attach_file(page, jpg, tiempos, es_imagen=True, leyenda=text)
+                    if not slip_sent:
+                        try:
+                            _attach_file(page, jpg, tiempos, es_imagen=True, leyenda=text)
+                        except Exception as e:
+                            raise SendStepError(t("envio.fallo_papeleta"), e) from e
+                        slip_sent = True
                     if modo_recordatorio in ("ics", "ambos"):
-                        _attach_file(page, ics, tiempos, es_imagen=False)
+                        try:
+                            _attach_file(page, ics, tiempos, es_imagen=False)
+                        except Exception as e:
+                            raise SendStepError(t("envio.fallo_recordatorio"), e) from e
                     final_error = None
                     break
                 except Exception as e:

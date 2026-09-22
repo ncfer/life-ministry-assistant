@@ -99,6 +99,22 @@ def main() -> int:
             page.wait_for_timeout(4000)
             for descripcion, selector in PREVIEW_CHECKS:
                 comprobar(page, descripcion, selector)
+
+            # El envío se confirma esperando a que desaparezca el icono
+            # wds-ic-status-pending (ver _wait_until_sent). Si WhatsApp
+            # cambiara ese esquema de nombres, los mensajes ya enviados
+            # dejarían de mostrar wds-ic-read y la confirmación se
+            # quedaría esperando para siempre.
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(1500)
+            tiene_estados = page.evaluate(
+                """() => [...document.querySelectorAll('svg > title')]
+                     .some(t => t.textContent.startsWith('wds-ic-'))""")
+            if tiene_estados:
+                print("  ok     esquema de iconos de estado (wds-ic-*)")
+            else:
+                print("  FALLA  esquema de iconos de estado (wds-ic-*)")
+                fallos.append("iconos de estado")
         finally:
             context.close()  # the preview is thrown away, nothing is sent
 

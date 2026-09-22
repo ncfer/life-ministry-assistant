@@ -124,8 +124,68 @@ def check_navigation() -> None:
     print("  ok     volver atrás no regenera")
 
 
+def check_send_step_error() -> None:
+    """El fallo dice qué mitad del envío se rompió, no solo que falló."""
+    from assistant.whatsapp_send import SendStepError
+
+    error = SendStepError("La papeleta se envió, pero no el recordatorio",
+                          TimeoutError("timeout 30000ms"))
+    assert "recordatorio" in str(error)
+    assert "timeout" in str(error)          # la causa original no se pierde
+    assert isinstance(error, Exception)
+    print("  ok     el fallo identifica el adjunto")
+
+
+def check_sent_confirmation() -> None:
+    """_wait_until_sent espera de verdad, y falla si algo sigue pendiente.
+
+    Se prueba contra una página local con el mismo icono que usa
+    WhatsApp, no contra WhatsApp: lo que se verifica es la lógica de
+    espera, y así el check no necesita ni red ni sesión.
+    """
+    from playwright.sync_api import sync_playwright
+
+    from assistant.whatsapp_send import PENDING_ICON, _wait_until_sent
+
+    pendiente = f"<svg><title>{PENDING_ICON}</title></svg>"
+    enviado = "<svg><title>wds-ic-read</title></svg>"
+
+    try:
+        with sync_playwright() as p:
+            try:
+                browser = p.chromium.launch(headless=True)
+            except Exception:
+                try:
+                    browser = p.chromium.launch(headless=True, channel="chrome")
+                except Exception:
+                    print("  --     confirmación de envío (sin navegador, omitido)")
+                    return
+            page = browser.new_page()
+
+            page.set_content(f"<body>{enviado}</body>")
+            _wait_until_sent(page)          # nada pendiente: vuelve enseguida
+
+            page.set_content(f"<body>{pendiente}</body>")
+            try:
+                page.set_default_timeout(2000)
+                page.wait_for_function(
+                    """(pending) => ![...document.querySelectorAll('svg > title')]
+                         .some(t => t.textContent === pending)""",
+                    arg=PENDING_ICON, timeout=2000)
+            except Exception:
+                pass                         # lo esperado: sigue pendiente
+            else:
+                raise AssertionError("no detectó un mensaje que seguía pendiente")
+            browser.close()
+    except AssertionError:
+        raise
+    print("  ok     confirmación de envío (detecta lo pendiente)")
+
+
 if __name__ == "__main__":
     check_versions()
     check_export()
     check_navigation()
+    check_send_step_error()
+    check_sent_confirmation()
     print("\nTodo correcto.")

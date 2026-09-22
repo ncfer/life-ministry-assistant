@@ -107,6 +107,8 @@ _TEXTS: dict[str, dict[str, str]] = {
             "que ya se hayan generado siguen en la carpeta de salida."
         ),
         "envio.guardar_manual": "Guardar para enviar a mano",
+        "envio.fallo_papeleta": "No se pudo enviar la papeleta",
+        "envio.fallo_recordatorio": "La papeleta se envió, pero no el recordatorio",
         "envio.guardar_manual_ayuda": (
             "Copia la imagen, el recordatorio y el texto del mensaje de cada "
             "persona en la carpeta que elijas, para enviarlos tú mismo."
@@ -633,6 +635,8 @@ _TEXTS: dict[str, dict[str, str]] = {
             "were already generated stay in the output folder."
         ),
         "envio.guardar_manual": "Save to send by hand",
+        "envio.fallo_papeleta": "The slip could not be sent",
+        "envio.fallo_recordatorio": "The slip was sent, but the reminder was not",
         "envio.guardar_manual_ayuda": (
             "Copies each person's image, reminder and message text into a "
             "folder you choose, so you can send them yourself."
