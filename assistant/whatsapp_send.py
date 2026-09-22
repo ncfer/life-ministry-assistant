@@ -132,7 +132,12 @@ def _attach_file(
     click, so Playwright intercepts it and the native one never even
     opens.
     """
-    page.locator('span[data-icon="plus-rounded"], span[data-icon="clip"]').first.click()
+    # The attach button's icon name has already changed twice (clip ->
+    # plus-rounded -> ic-attach-file); the old names are kept so an older
+    # WhatsApp Web still works, same as with the send button below.
+    page.locator(
+        'span[data-icon="ic-attach-file"], span[data-icon="plus-rounded"], span[data-icon="clip"]'
+    ).first.click()
     with page.expect_file_chooser() as fc_info:
         if es_imagen:
             page.get_by_text("Fotos y videos", exact=True).click()
