@@ -5,4 +5,4 @@ against GitHub's latest release tag — bump it here when tagging a new
 release, or the app will keep announcing its own version as an update.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
