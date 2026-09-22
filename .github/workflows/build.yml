@@ -68,7 +68,10 @@ jobs:
             name="${dir%/}"
             (cd "$name" && zip -r "../$name.zip" .)
           done
-      - uses: softprops/action-gh-release@v2
+      # Pinned to a commit SHA, not a tag: this is a third-party
+      # action running with contents:write, and a mutable tag can be
+      # repointed at different code without anything here changing.
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
         with:
           files: artifacts/*.zip
           generate_release_notes: true
