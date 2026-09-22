@@ -48,6 +48,25 @@ TIMEOUT_SENT_MS = 60_000
 # translated, and unlike the CSS classes, which are obfuscated.
 PENDING_ICON = "wds-ic-status-pending"
 
+# Everything below identifies elements WITHOUT reading WhatsApp's visible
+# text. The app is translated and is meant for congregations in any
+# language, but these selectors used to be hardcoded Spanish labels
+# ("Escribir un mensaje", "Fotos y videos", "Documento"), so an English
+# WhatsApp Web never got past opening the chat and nothing was ever sent.
+#
+# The message box is the only contenteditable inside <footer> (the
+# sidebar search box is another contenteditable, which is why a generic
+# selector isn't enough). The attachment preview's caption box is the
+# contenteditable that is NOT in the footer.
+CHAT_BOX = 'footer div[contenteditable="true"][data-tab]'
+CAPTION_BOX = 'xpath=//div[@contenteditable="true"][not(ancestor::footer)]'
+
+# Attach-menu entries, found by the <title> of their icon — WhatsApp's
+# own internal name, identical in every interface language. The visible
+# labels are kept only as a fallback in case that icon set changes.
+MENU_DOCUMENT = ("ic-description-filled", ("Documento", "Document"))
+MENU_PHOTOS = ("ic-filter-filled", ("Fotos y videos", "Photos & videos", "Photos and videos"))
+
 class SendStepError(Exception):
     """Says WHICH half of a send failed (slip or reminder).
 
@@ -100,17 +119,28 @@ def format_message(assignment: Assignment, template: str, mode: ReminderMode) ->
 
 
 def _wait_for_chat_ready(page: Page, tiempos: TimingConfig) -> None:
-    # NOTE: the selector must be specific to the real message box
-    # (aria-label "Escribir un mensaje para ..."), not just any
-    # contenteditable with data-tab — the side search box also has one,
-    # so a generic selector gives a false "chat ready" positive when the
-    # target chat hasn't actually finished opening (seen with
+    # Scoped to <footer> on purpose: the sidebar search box is also a
+    # contenteditable with data-tab, and matching it gives a false "chat
+    # ready" positive while the target chat is still opening (seen with
     # send?phone=... failing on back-to-back sends).
-    page.wait_for_selector(
-        'div[contenteditable="true"][data-tab][aria-label^="Escribir un mensaje"]',
-        timeout=TIMEOUT_CHAT_MS,
-    )
+    page.wait_for_selector(CHAT_BOX, timeout=TIMEOUT_CHAT_MS)
     page.wait_for_timeout(tiempos.open_chat_wait_s * 1000)
+
+
+def _menu_entry(page: Page, entry: tuple[str, tuple[str, ...]]):
+    """The attach-menu row for `entry`, by icon first, label as fallback."""
+    icon, labels = entry
+    by_icon = page.locator(
+        f'xpath=//*[local-name()="title" and text()="{icon}"]'
+        f'/ancestor::*[@role="menuitem"][1]'
+    )
+    if by_icon.count():
+        return by_icon.first
+    for label in labels:
+        by_label = page.get_by_text(label, exact=True)
+        if by_label.count():
+            return by_label.first
+    raise RuntimeError(t("errores.menu_adjuntar", entrada=labels[0]))
 
 
 def _wait_until_sent(page: Page) -> None:
@@ -161,10 +191,10 @@ def _attach_file(
       - "Documento" adds an input with accept="*" (exact match, not an
         entry that merely contains the "*" character).
 
-    If `leyenda` is given, it's typed into the preview's text box
-    (aria-label="Escribe un mensaje", different from the normal
-    conversation box) before sending, so the file and the text travel as
-    a single message.
+    If `leyenda` is given, it's typed into the preview's caption box
+    (CAPTION_BOX — the contenteditable outside the footer, unlike the
+    normal conversation box) before sending, so the file and the text
+    travel as a single message.
 
     Clicking "Fotos y videos"/"Documento" makes WhatsApp call click() on
     the <input type="file">, which in a real (non-headless) browser opens
@@ -182,10 +212,7 @@ def _attach_file(
         'span[data-icon="ic-attach-file"], span[data-icon="plus-rounded"], span[data-icon="clip"]'
     ).first.click()
     with page.expect_file_chooser() as fc_info:
-        if es_imagen:
-            page.get_by_text("Fotos y videos", exact=True).click()
-        else:
-            page.get_by_text("Documento", exact=True).click()
+        _menu_entry(page, MENU_PHOTOS if es_imagen else MENU_DOCUMENT).click()
     fc_info.value.set_files(str(path))
     page.wait_for_timeout(tiempos.after_attach_wait_s * 1000)
 
@@ -194,7 +221,7 @@ def _attach_file(
     page.wait_for_timeout(tiempos.after_upload_wait_s * 1000)
 
     if leyenda:
-        box = page.locator('div[contenteditable="true"][aria-label="Escribe un mensaje"]')
+        box = page.locator(CAPTION_BOX)
         box.click()
         _write_in_box(box, leyenda)
 

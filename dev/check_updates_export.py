@@ -16,7 +16,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from assistant.manual_export import export_for_manual_send, safe_name  # noqa: E402
+from assistant.manual_export import (  # noqa: E402
+    export_for_manual_send, export_reminders_for_manual_send, safe_name,
+)
+from assistant.reminder_workbook import Participant  # noqa: E402
 from assistant.models import Assignment  # noqa: E402
 from assistant.updates import is_newer, parse_version  # noqa: E402
 
@@ -81,6 +84,32 @@ def check_export() -> None:
         assert not (only_link / "Álex Núñez" / "slip.ics").exists()
         assert (only_link / "Álex Núñez" / "slip.jpg").exists()
     print("  ok     volcado manual")
+
+
+def check_reminder_export() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        jpg = tmp_path / "semana.jpg"
+        jpg.write_bytes(b"fake jpg")
+        template = tmp_path / "recordatorio.txt"
+        template.write_text("Hola {nombre_pila}, {fecha_relativa}: {rol}.", encoding="utf-8")
+
+        participante = Participant(
+            name="Álex Núñez", date=datetime.date(2026, 10, 7),
+            roles=["Lectura de la Biblia"], phone="34600111222")
+        destino = tmp_path / "salida-rec"
+        created = export_reminders_for_manual_send([(participante, jpg)], destino, template)
+
+        assert len(created) == 1
+        folder = destino / "Álex Núñez"
+        # todos comparten la misma imagen de la semana, pero cada carpeta
+        # tiene la suya para poder reenviarla tal cual
+        assert (folder / "semana.jpg").read_bytes() == b"fake jpg"
+        mensaje = (folder / "mensaje.txt").read_text(encoding="utf-8")
+        assert mensaje.startswith("34600111222"), mensaje
+        assert "Hola Álex" in mensaje, mensaje
+        assert "Lectura de la Biblia" in mensaje, mensaje
+    print("  ok     volcado manual de recordatorios")
 
 
 def check_navigation() -> None:
@@ -185,6 +214,7 @@ def check_sent_confirmation() -> None:
 if __name__ == "__main__":
     check_versions()
     check_export()
+    check_reminder_export()
     check_navigation()
     check_send_step_error()
     check_sent_confirmation()

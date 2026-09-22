@@ -3,11 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 
 from PyQt6.QtWidgets import (
+    QFileDialog,
     QHBoxLayout, QLabel, QMessageBox, QProgressBar, QScrollArea,
     QVBoxLayout, QWidget,
 )
 
 from ...history import log_entry
+from ...manual_export import export_reminders_for_manual_send
 from ...i18n import t
 from ..style import SUCCESS, WARNING_TEXT
 from ..widgets import Card, IconLabel, NavButton, WarningBanner
@@ -62,6 +64,11 @@ class ReminderSendingPage(QWidget):
         self.cancel_button.clicked.connect(self._cancel)
         buttons.addWidget(self.cancel_button)
         buttons.addStretch()
+        self.manual_button = NavButton(t("envio.guardar_manual"), icon_name="folder-open")
+        self.manual_button.setToolTip(t("envio.guardar_manual_ayuda"))
+        self.manual_button.clicked.connect(self._save_manually)
+        self.manual_button.hide()
+        buttons.addWidget(self.manual_button)
         self.retry_button = NavButton(t("comun.reintentar_fallidos"), icon_name="rotate-ccw")
         self.retry_button.clicked.connect(self._retry)
         self.retry_button.hide()
@@ -89,6 +96,7 @@ class ReminderSendingPage(QWidget):
         self._failed = []
         self.qr_banner.hide()
         self.retry_button.hide()
+        self.manual_button.hide()
         state = self.main_window.reminder_state
         items = [(p, state.week_jpg) for p in state.participants]
         self._start_sending(items)
@@ -160,6 +168,10 @@ class ReminderSendingPage(QWidget):
             self.status_label.setText(t("sending.terminado_n_fallidos", n=len(self._failed)))
             self.retry_button.setText(t("comun.reintentar_fallidos_n", n=len(self._failed)))
             self.retry_button.show()
+            # La imagen de la semana solo sigue en disco mientras queden
+            # fallidos (ver _cleanup_generated), así que el volcado solo
+            # se ofrece aquí.
+            self.manual_button.show()
         else:
             self.status_label.setText(t("sending.terminado_bien"))
             self._cleanup_generated()
@@ -180,6 +192,31 @@ class ReminderSendingPage(QWidget):
                 Path(week_jpg).unlink(missing_ok=True)
             except OSError:
                 pass
+
+    def _save_manually(self) -> None:
+        """Vuelca los recordatorios que no salieron a una carpeta."""
+        state = self.main_window.reminder_state
+        items = [(p, state.week_jpg) for p in self._failed] or [
+            (p, state.week_jpg) for p in state.participants
+        ]
+        if not items:
+            return
+        folder = QFileDialog.getExistingDirectory(self, t("envio.guardar_manual_titulo"))
+        if not folder:
+            return
+        try:
+            created = export_reminders_for_manual_send(
+                items, Path(folder),
+                Path(self.main_window.config.paths.reminder_message_txt),
+            )
+        except Exception as error:
+            QMessageBox.critical(
+                self, t("comun.error_enviar_titulo"),
+                t("envio.guardado_error", error=error))
+            return
+        QMessageBox.information(
+            self, t("envio.guardar_manual"),
+            t("envio.guardado_ok", n=len(created), ruta=folder))
 
     def _retry(self) -> None:
         state = self.main_window.reminder_state

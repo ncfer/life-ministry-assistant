@@ -13,6 +13,8 @@ import shutil
 from pathlib import Path
 
 from .models import Assignment
+from .reminder_workbook import Participant
+from .send_reminders import format_reminder_message
 from .whatsapp_send import ReminderMode, format_message, load_message_template
 
 # Characters Windows forbids in a file name. The assignment names
@@ -60,6 +62,35 @@ def export_for_manual_send(
         text = format_message(assignment, template, mode)
         (folder / "mensaje.txt").write_text(
             f"{phone}\n\n{text}\n", encoding="utf-8"
+        )
+        created.append(folder)
+    return created
+
+
+def export_reminders_for_manual_send(
+    items: list[tuple[Participant, Path]],
+    destination: Path,
+    template_path: Path,
+) -> list[Path]:
+    """Same as export_for_manual_send, for the reminders flow.
+
+    Reminders have no .ics and every participant shares the same week
+    image, so the image is copied once per person's folder — a folder
+    someone can open and forward as-is is worth more than saving a few
+    hundred kilobytes.
+    """
+    template = load_message_template(template_path)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    created: list[Path] = []
+    for participant, jpg in items:
+        folder = destination / safe_name(participant.name)
+        folder.mkdir(parents=True, exist_ok=True)
+        if jpg and Path(jpg).exists():
+            shutil.copy2(jpg, folder / Path(jpg).name)
+        (folder / "mensaje.txt").write_text(
+            f"{participant.phone or ''}\n\n{format_reminder_message(participant, template)}\n",
+            encoding="utf-8",
         )
         created.append(folder)
     return created

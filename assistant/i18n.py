@@ -108,6 +108,7 @@ _TEXTS: dict[str, dict[str, str]] = {
         ),
         "envio.guardar_manual": "Guardar para enviar a mano",
         "envio.fallo_papeleta": "No se pudo enviar la papeleta",
+        "errores.menu_adjuntar": "No se encontró «{entrada}» en el menú de adjuntar de WhatsApp",
         "envio.fallo_recordatorio": "La papeleta se envió, pero no el recordatorio",
         "envio.guardar_manual_ayuda": (
             "Copia la imagen, el recordatorio y el texto del mensaje de cada "
@@ -636,6 +637,7 @@ _TEXTS: dict[str, dict[str, str]] = {
         ),
         "envio.guardar_manual": "Save to send by hand",
         "envio.fallo_papeleta": "The slip could not be sent",
+        "errores.menu_adjuntar": "Could not find \"{entrada}\" in WhatsApp's attachment menu",
         "envio.fallo_recordatorio": "The slip was sent, but the reminder was not",
         "envio.guardar_manual_ayuda": (
             "Copies each person's image, reminder and message text into a "

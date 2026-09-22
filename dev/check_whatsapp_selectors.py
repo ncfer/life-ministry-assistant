@@ -24,23 +24,23 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from playwright.sync_api import sync_playwright  # noqa: E402
 
 from assistant.config import load_config  # noqa: E402
-from assistant.whatsapp_send import open_session  # noqa: E402
+from assistant.whatsapp_send import (  # noqa: E402
+    CAPTION_BOX, CHAT_BOX, MENU_DOCUMENT, MENU_PHOTOS, _menu_entry, open_session,
+)
 
-# Each entry is (what it's for, the selector as whatsapp_send.py writes it).
-# Keep this list in sync with that module — it's the point of the check.
+# Imported from the module instead of copied, so the check can't drift
+# away from what the app actually uses.
+ATTACH_BUTTON = ('span[data-icon="ic-attach-file"], span[data-icon="plus-rounded"], '
+                 'span[data-icon="clip"]')
 CHECKS = [
-    ("caja de mensaje del chat",
-     'div[contenteditable="true"][data-tab][aria-label^="Escribir un mensaje"]'),
-    ("botón de adjuntar",
-     'span[data-icon="ic-attach-file"], span[data-icon="plus-rounded"], span[data-icon="clip"]'),
+    ("caja de mensaje del chat", CHAT_BOX),
+    ("botón de adjuntar", ATTACH_BUTTON),
 ]
 PREVIEW_CHECKS = [
-    ("caja de leyenda del adjunto",
-     'div[contenteditable="true"][aria-label="Escribe un mensaje"]'),
-    ("botón de enviar",
-     'span[data-icon="send"], span[data-icon="wds-ic-send-filled"]'),
+    ("caja de leyenda del adjunto", CAPTION_BOX),
+    ("botón de enviar", 'span[data-icon="send"], span[data-icon="wds-ic-send-filled"]'),
 ]
-MENU_ENTRIES = ("Fotos y videos", "Documento")
+MENU_ENTRIES = (("Fotos y videos", MENU_PHOTOS), ("Documento", MENU_DOCUMENT))
 
 fallos: list[str] = []
 
@@ -86,15 +86,16 @@ def main() -> int:
 
             page.locator(CHECKS[1][1]).first.click()
             page.wait_for_timeout(1500)
-            for entrada in MENU_ENTRIES:
-                if page.get_by_text(entrada, exact=True).count():
-                    print(f"  ok     entrada del menú «{entrada}»")
-                else:
-                    print(f"  FALLA  entrada del menú «{entrada}»")
-                    fallos.append(f"menú: {entrada}")
+            for nombre, entrada in MENU_ENTRIES:
+                try:
+                    _menu_entry(page, entrada)
+                    print(f"  ok     entrada del menú «{nombre}» (icono {entrada[0]})")
+                except Exception:
+                    print(f"  FALLA  entrada del menú «{nombre}»")
+                    fallos.append(f"menú: {nombre}")
 
             with page.expect_file_chooser() as fc:
-                page.get_by_text("Fotos y videos", exact=True).click()
+                _menu_entry(page, MENU_PHOTOS).click()
             fc.value.set_files(str(tmp))
             page.wait_for_timeout(4000)
             for descripcion, selector in PREVIEW_CHECKS:
